@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP8266 Node {{ chip_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>ESP8266 Sensor Data - Node {{ chip_id }}</h2>
+        
+        <div class="button-group">
+            <button onclick="fetchTemperature()">Load Temperature</button>
+            <button onclick="fetchHumidity()">Load Humidity</button>
+        </div>
+
+        <p id="temp">Temperature: <span class="data highlight">Waiting for data...</span></p>
+        <p id="humidity">Humidity: <span class="data highlight">Waiting for data...</span></p>
+    </div>
+
+    <script>
+        function fetchTemperature() {
+            fetch(`/trigger_temp?chip_id={{ chip_id }}`)
+            .then(() => fetch(`/get_temp?chip_id={{ chip_id }}`))
+            .then(response => response.json())
+            .then(data => { 
+                document.getElementById('temp').innerHTML = "Temperature: <span class='data highlight'>" + data.temperature + "°C</span>"; 
+            });
+        }
+
+        function fetchHumidity() {
+            fetch(`/trigger_humidity?chip_id={{ chip_id }}`)
+            .then(() => fetch(`/get_humidity?chip_id={{ chip_id }}`))
+            .then(response => response.json())
+            .then(data => { 
+                document.getElementById('humidity').innerHTML = "Humidity: <span class='data highlight'>" + data.humidity + "%</span>"; 
+            });
+        }
+    </script>
+</body>
+</html>
