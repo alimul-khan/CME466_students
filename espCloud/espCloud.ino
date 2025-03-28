@@ -22,10 +22,18 @@ void setup() {
     }
     Serial.println("\nConnected to WiFi!");
 
-//    chipID = String(ESP.getChipId(), HEX); // You may replace this by your nsid
+
+    //    chipID = String(ESP.getChipId(), HEX); // You may replace this by your nsid
     chipID = "abc123";
-    Serial.print("Use this link: http://127.0.0.1:5000/node/");
+    Serial.print("From server computer, use this link: http://127.0.0.1:5000/node/");
     Serial.println(chipID);
+
+    Serial.print("From any other device on the same network, use this link: http://");
+    Serial.print(serverIP);
+    Serial.print("/node/");
+    Serial.println(chipID);
+
+
 }
 
 void loop() {
